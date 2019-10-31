@@ -17,8 +17,7 @@ singularity exec -B /path/to/your/working/directory /path/to/docker/img/benchmar
 ```
 
 # Link to Softwares
-For the information of software updates, please go to their corresponding pages.
-
+For the information of software updates, please go to their corresponding pages.\
 [Seurat](https://satijalab.org/seurat/) \
 [SingleR](https://github.com/dviraran/SingleR) \
 [scmap](https://bioconductor.org/packages/release/bioc/html/scmap.html) \
