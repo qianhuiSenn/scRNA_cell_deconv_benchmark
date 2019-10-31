@@ -1,7 +1,7 @@
 # Dataset
-The four pairs of Real datasets are available through: https://drive.google.com/drive/folders/1famn_tRVT_Es0GgFng508QggXcqETPCJ?usp=sharing
+The four pairs of Real datasets (processed) and the downsampled datasets as mentioned in the manuscript are available through: https://drive.google.com/drive/folders/1famn_tRVT_Es0GgFng508QggXcqETPCJ?usp=sharing
 # Simulation Datasets
-Please find the corresponding Rscripts for the generation of the simulation data.
+Please find the corresponding Rscripts for simulation data.
 # Installation of the Docker Files
 Pull the software version used in the manuscript in an R session.
 ```bash
