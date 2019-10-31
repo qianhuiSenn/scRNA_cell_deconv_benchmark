@@ -19,11 +19,18 @@ singularity exec -B /path/to/your/working/directory /path/to/docker/img/benchmar
 # Link to Softwares
 For the information of software updates, please go to their corresponding pages.
 
-##[Seurat](https://satijalab.org/seurat/)
-##[SingleR](https://github.com/dviraran/SingleR)
-##[scmap](https://bioconductor.org/packages/release/bioc/html/scmap.html)
-##[Garnett](https://cole-trapnell-lab.github.io/garnett/docs/)
-##[CHETAH](https://github.com/jdekanter/CHETAH)
-##[SCINA](https://github.com/jcao89757/SCINA)
-##[singleCellNet](https://github.com/pcahan1/singleCellNet)
-##[scID](https://github.com/BatadaLab/scID)
+[Seurat](https://satijalab.org/seurat/)
+
+[SingleR](https://github.com/dviraran/SingleR)
+
+[scmap](https://bioconductor.org/packages/release/bioc/html/scmap.html)
+
+[Garnett](https://cole-trapnell-lab.github.io/garnett/docs/)
+
+[CHETAH](https://github.com/jdekanter/CHETAH)
+
+[SCINA](https://github.com/jcao89757/SCINA)
+
+[singleCellNet](https://github.com/pcahan1/singleCellNet)
+
+[scID](https://github.com/BatadaLab/scID)
