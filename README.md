@@ -15,3 +15,15 @@ Then, proceeds your analysis as usual.
 ```bash
 singularity exec -B /path/to/your/working/directory /path/to/docker/img/benchmark_celltype_r_packages-versioncontrol.simg Rscript /path/to/your/Rscript/sample.R
 ```
+
+# Link to Softwares
+For the information of software updates, please go to their corresponding pages.
+
+##[Seurat](https://satijalab.org/seurat/)
+##[SingleR](https://github.com/dviraran/SingleR)
+##[scmap](https://bioconductor.org/packages/release/bioc/html/scmap.html)
+##[Garnett](https://cole-trapnell-lab.github.io/garnett/docs/)
+##[CHETAH](https://github.com/jdekanter/CHETAH)
+##[SCINA](https://github.com/jcao89757/SCINA)
+##[singleCellNet](https://github.com/pcahan1/singleCellNet)
+##[scID](https://github.com/BatadaLab/scID)
