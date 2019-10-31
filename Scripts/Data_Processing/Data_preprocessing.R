@@ -3,6 +3,7 @@
 raw_count <- readRDS("path/to/data")
 meta <- readRDS("path/to/data")
 library(Seurat)
+library(dplyr)
 # 1. Cell and gene filtering
 # 2. Normalization
 data_tmp <- CreateSeuratObject(raw_count, min.cells = 3, min.features = 200, project = "example")
