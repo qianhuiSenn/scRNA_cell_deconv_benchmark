@@ -1,0 +1,132 @@
+#################
+##  Trim fastq ##
+#################
+module load fastqc/0.10.1
+module load cutadapt/1.10
+module load trimgalore/0.4.2
+mkdir /scratch/lgarmire_fluxod/yhdu/yhdu/qhh/fastqc_trimmed_results/
+for i in /scratch/lgarmire_fluxod/yhdu/yhdu/qhh/fastq/*.fastq; do
+trim_galore --nextera -o /scratch/lgarmire_fluxod/yhdu/yhdu/qhh/fastqc_trimmed_results/ ${i}
+done
+
+#################
+##  STAR Index ##
+#################
+module load star/2.5.2a
+mkdir /scratch/lgarmire_fluxod/yhdu/yhdu/STAR/hg37/Index/Index75
+STAR \
+--runThreadN 12 \
+--runMode genomeGenerate \
+--genomeDir /scratch/lgarmire_fluxod/yhdu/yhdu/STAR/hg37/Index/Index75/ \
+--genomeFastaFiles /scratch/lgarmire_fluxod/yhdu/yhdu/hg37/Homo_sapiens.GRCh37.dna.primary_assembly.fa \
+--sjdbGTFfile /scratch/lgarmire_fluxod/yhdu/yhdu/hg37/Homo_sapiens.GRCh37.87.gtf  \
+--sjdbOverhang 74
+
+
+#####################
+##  STAR Alignment ##
+#####################
+module load star/2.5.2a
+cd /scratch/lgarmire_fluxod/yhdu/yhdu/qhh/fastqc_trimmed_results
+mkdir /scratch/lgarmire_fluxod/yhdu/yhdu/qhh/star_trans/
+for i in *.fastq; do
+STAR --genomeDir /scratch/lgarmire_fluxod/yhdu/yhdu/STAR/hg37/Index/Index75/ \
+--runThreadN 12 \
+--readFilesIn $i \
+--outFileNamePrefix /scratch/lgarmire_fluxod/yhdu/yhdu/qhh/star_trans/"${i%.fastq}" \
+--quantMode TranscriptomeSAM \
+--outSAMtype BAM SortedByCoordinate
+done
+
+
+##################
+##  Downsample  ##
+##################
+module load samtools/1.9
+cd /scratch/lgarmire_fluxod/yhdu/yhdu/qhh/star_trans
+for i in *.toTranscriptome.out.bam; do
+samtools view -H $i >> /scratch/lgarmire_fluxod/yhdu/yhdu/qhh/downsample_2nd/75/"${i}"
+samtools view -s 0.75 $i >> /scratch/lgarmire_fluxod/yhdu/yhdu/qhh/downsample_2nd/75/"${i}"
+samtools view -H $i >> /scratch/lgarmire_fluxod/yhdu/yhdu/qhh/downsample_2nd/50/"${i}"
+samtools view -s 0.5 $i >> /scratch/lgarmire_fluxod/yhdu/yhdu/qhh/downsample_2nd/50/"${i}"
+samtools view -H $i >> /scratch/lgarmire_fluxod/yhdu/yhdu/qhh/downsample_2nd/25/"${i}"
+samtools view -s 0.25 $i >> /scratch/lgarmire_fluxod/yhdu/yhdu/qhh/downsample_2nd/25/"${i}"
+done
+
+
+#######################################
+##  rsem: prepare reference library  ##
+#######################################
+cd /scratch/lgarmire_fluxod/yhdu/yhdu/qhh
+module load rsem/1.3.1
+rsem-prepare-reference --gtf /scratch/lgarmire_fluxod/yhdu/yhdu/hg37/Homo_sapiens.GRCh37.87.gtf \
+/scratch/lgarmire_fluxod/yhdu/yhdu/hg37/Homo_sapiens.GRCh37.dna.primary_assembly.fa RSEMhg37
+
+
+
+#########################################
+##  rsem: calculate expression matrix  ##
+#########################################
+module load rsem/1.3.1
+# rsem for 25% sampled data
+cd /scratch/lgarmire_fluxod/yhdu/yhdu/qhh/downsample_2nd/25
+mkdir /scratch/lgarmire_fluxod/yhdu/yhdu/qhh/downsample_2nd/25/25finished/
+for i in *.bam; do
+rsem-calculate-expression -p 3 --bam --no-bam-output $i /scratch/lgarmire_fluxod/yhdu/yhdu/qhh/RSEMhg37 \
+/scratch/lgarmire_fluxod/yhdu/yhdu/qhh/downsample_2nd/rsem_out/25/"${i}"
+mv $i /scratch/lgarmire_fluxod/yhdu/yhdu/qhh/downsample_2nd/25/25finished/
+done
+# rsem for 50% sampled data
+cd /scratch/lgarmire_fluxod/yhdu/yhdu/qhh/downsample_2nd/50
+mkdir /scratch/lgarmire_fluxod/yhdu/yhdu/qhh/downsample_2nd/50/50finished/
+for i in *.bam; do
+rsem-calculate-expression -p 3 --bam --no-bam-output $i /scratch/lgarmire_fluxod/yhdu/yhdu/qhh/RSEMhg37 \
+/scratch/lgarmire_fluxod/yhdu/yhdu/qhh/downsample_2nd/rsem_out/50/"${i}"
+mv $i /scratch/lgarmire_fluxod/yhdu/yhdu/qhh/downsample_2nd/50/50finished/
+done
+# rsem for 75% sampled data
+cd /scratch/lgarmire_fluxod/yhdu/yhdu/qhh/downsample_2nd/75
+mkdir /scratch/lgarmire_fluxod/yhdu/yhdu/qhh/downsample_2nd/75/75finished/
+for i in *.bam; do
+rsem-calculate-expression -p 3 --bam --no-bam-output $i /scratch/lgarmire_fluxod/yhdu/yhdu/qhh/RSEMhg37 \
+/scratch/lgarmire_fluxod/yhdu/yhdu/qhh/downsample_2nd/rsem_out/75/"${i}"
+mv $i /scratch/lgarmire_fluxod/yhdu/yhdu/qhh/downsample_2nd/75/75finished/
+done
+
+
+
+########################################################
+##  transform and combine multiple expression matrix  ##
+########################################################
+cd /scratch/lgarmire_fluxod/yhdu/yhdu/qhh/downsample_2nd/rsem_out/25
+awk '{print FILENAME"\t"$0}' *.genes.results |grep -v gene_id > /scratch/lgarmire_fluxod/yhdu/yhdu/qhh/downsample_2nd/rsem_out/tmp25.txt
+cd /scratch/lgarmire_fluxod/yhdu/yhdu/qhh/downsample_2nd/rsem_out/50
+awk '{print FILENAME"\t"$0}' *.genes.results |grep -v gene_id > /scratch/lgarmire_fluxod/yhdu/yhdu/qhh/downsample_2nd/rsem_out/tmp50.txt
+cd /scratch/lgarmire_fluxod/yhdu/yhdu/qhh/downsample_2nd/rsem_out/75
+awk '{print FILENAME"\t"$0}' *.genes.results |grep -v gene_id > /scratch/lgarmire_fluxod/yhdu/yhdu/qhh/downsample_2nd/rsem_out/tmp75.txt
+
+module load R/3.5.0
+module load r-biomed-libs/3.5.0
+
+################
+## in R script ##
+################
+setwd('/scratch/lgarmire_fluxod/yhdu/yhdu/qhh/downsample_2nd/rsem_out')
+library(reshape2)
+pair = read.csv('pair.csv')
+transform <- function(path){
+  a=read.table(path,sep = '\t',stringsAsFactors = F)
+  b<-a[,c(1,2,7)]
+  tpm <- dcast(b, formula = V2~V1)
+  row.names(tpm)<-tpm$V2
+  tpm<-tpm[,-1]
+  names(tpm)<-unlist(lapply(names(tpm),function(x){tmp<-strsplit(x,'_trimmedAligned.toTranscriptome.out.bam.genes.results')[[1]][1]}))
+  names(tpm)<-pair$V1[match(names(tpm),pair$V2)]
+  tpm
+}
+tpm25<-transform('tmp25.txt')
+write.csv(tpm25,'down_2nd_tpm_25.csv')
+tpm50<-transform('tmp50.txt')
+write.csv(tpm50,'down_2nd_tpm_50.csv')
+tpm75<-transform('tmp75.txt')
+write.csv(tpm75,'down_2nd_tpm_75.csv')
