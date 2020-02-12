@@ -34,6 +34,7 @@ query_seurat <- ScaleData(query_seurat)
 ##prediction###
 sim.anchors <- FindTransferAnchors(reference = reference_seurat, query = query_seurat,
                                    dims = 1:30)
+##replace Group with the actual column name from meta
 predictions <- TransferData(anchorset = sim.anchors, refdata = reference_seurat$Group,
                             dims = 1:30)
 query_seurat <- AddMetaData(object = query_seurat, metadata = predictions)
