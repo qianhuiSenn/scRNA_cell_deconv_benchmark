@@ -9,6 +9,26 @@ DATA_DIR <- "/path/to/data"
 RESULT_DIR <- "/path/to/result"
 TMP_DIR <-  "/path/to/tmp"
 
+
+###For smaller dataset: cell type smaller than 4 cannot be split in singleCellNet and need to be exclude out#####
+splitCommon<-function(sampTab, ncells, dLevel="cell_ontology_class"){
+  cts<-unique(as.vector(sampTab[,dLevel]))
+  trainingids<-vector()
+  for(ct in cts){
+    stX<-sampTab[sampTab[,dLevel]==ct, ,drop = F]
+    if(nrow(stX) > 4){
+      cat(ct, ": ")
+      ccount<-nrow(stX)-3
+      ccount<-min(ccount, ncells)
+      cat(nrow(stX),"\n")
+      trainingids<-append(trainingids, sample(rownames(stX), ccount))
+    }
+  }
+  val_ids<-setdiff(rownames(sampTab), trainingids)
+  list(train=sampTab[trainingids, , drop = F], val=sampTab[val_ids, , drop = F])
+}
+####################################################################################################################
+
 #load query
 query_count <- readRDS(file = file.path(DATA_DIR, 'query_count.rds'))
 query_meta <- readRDS(file = file.path(DATA_DIR, 'query_meta.rds'))
