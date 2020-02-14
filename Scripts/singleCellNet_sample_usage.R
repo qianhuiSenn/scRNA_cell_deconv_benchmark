@@ -72,6 +72,7 @@ rf_tspAll<-sc_makeClassifier(pdTrain[xpairs,], genes=xpairs, groups=grps, nRand=
 query_TransAll<-query_transform(query_count[cgenesA,], xpairs)
 nqRand<- 10
 query_classification <-rf_classPredict(rf_tspAll, query_TransAll, numRand=nqRand)
+###replace Group with actual column name of query meta data
 query_meta_tmp <-as.vector(query_meta$Group)
 names(query_meta_tmp)<-rownames(query_meta)
 grpRand<-rep("rand", nqRand)
