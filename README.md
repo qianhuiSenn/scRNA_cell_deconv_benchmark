@@ -19,9 +19,9 @@ singularity exec -B /path/to/your/working/directory /path/to/docker/img/benchmar
 # Link to Softwares
 For the information of software updates, please go to their corresponding pages.\
 [Seurat](https://satijalab.org/seurat/) \
-[SingleR](https://github.com/dviraran/SingleR) \
+[SingleR](https://github.com/dviraran/SingleR) [Recently Add Rejection Option]\
 [scmap](https://bioconductor.org/packages/release/bioc/html/scmap.html) \
-[Garnett](https://cole-trapnell-lab.github.io/garnett/docs/) \
+[Garnett](https://cole-trapnell-lab.github.io/garnett/docs/) [Recently Add Automatic Marker Detection]\
 [CHETAH](https://github.com/jdekanter/CHETAH) \
 [SCINA](https://github.com/jcao89757/SCINA) \
 [singleCellNet](https://github.com/pcahan1/singleCellNet) \
