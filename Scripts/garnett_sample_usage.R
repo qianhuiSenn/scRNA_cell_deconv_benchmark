@@ -23,7 +23,7 @@ reference_cds <- estimateSizeFactors(reference_cds)
 marker_file_path <- file.path(DATA_DIR, 'celltype_gene_marker.txt') #if available
 
 ##alternatively if not##
-##########DE Table format##########
+##########DE Table format#########
 ## cluster   gene  ###
 ## Group1   GeneA ###
 ## Group1   GeneB ###
