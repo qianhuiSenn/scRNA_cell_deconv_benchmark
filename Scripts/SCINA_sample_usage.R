@@ -9,6 +9,12 @@ TMP_DIR <-  "/path/to/tmp"
 set.seed(3456)
 
 true_marker <- readRDS(file = file.path(DATA_DIR, 'marker_top_10.rds'))
+##########Table format##########
+## cluster   gene  ###
+## Group1   GeneA ###
+## Group1   GeneB ###
+## ......  ...... ###
+#####################
 ##SUGGESTION FOR THE MARKER GENE LIST MAKING
 ## MODIFIY THIS IF YOU HAVE MORE THAN 5 GROUPS OR DIFFERENT CELL TYPE NAMES
 marker_gene_list <- list(
@@ -18,6 +24,17 @@ marker_gene_list <- list(
   Group4 = true_marker[which(true_marker$cluster == "Group4"), ]$gene,
   Group5 = true_marker[which(true_marker$cluster == "Group5"), ]$gene
 )
+
+###Alternative use
+group_list <- unique(true_marker$cluster)
+cell_num <- length(group_list)
+marker_gene_list <- list()
+for (i in 1:cell_num){
+  cell <- group_list[i]
+  gene <- marker_list[which(marker_list$cluster == cell), ]$gene
+  marker_gene_list[[i]] <- gene
+}
+names(marker_gene_list) <- group_list
 
 ###load query###
 query <- readRDS(file = file.path(DATA_DIR,'query_norm.rds'))
