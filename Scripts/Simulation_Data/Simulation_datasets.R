@@ -24,7 +24,7 @@ write.csv(truth,"truth_assay1.csv")
 saveRDS(sim1,"splatterSim1.RDS")
 
 # 2. simulation data 2 in manuscript
-params.groups <- newSplatParams(batchCells = 2000, nGenes = 10000
+params.groups <- newSplatParams(batchCells = 2000, nGenes = 10000)
 # params.groups <- newSplatParams(batchCells = 2000, nGenes = 10000, seed = 202002) #change seeds
 sim2 <- splatSimulateGroups(params.groups, group.prob = c(1/2, 1/4, 1/8, 1/16, 1/32, 1/64, 10/1024, 4/1024, 2/1024),
                            dropout.shape=-0.5, dropout.mid=1,
