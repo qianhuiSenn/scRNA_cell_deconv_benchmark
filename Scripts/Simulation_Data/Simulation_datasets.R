@@ -1,5 +1,6 @@
 # Required Library
 library(splatter)
+RESULT_DIR <- 'path/to/result'
 
 # 1. Simulation data 1 in manuscript
 params.groups <- newSplatParams(batchCells = 2000, nGenes = 4000)
@@ -105,7 +106,7 @@ for (seed_opt in seed_list){
 
 
 # 5. Simulation data 5 in time and memory comparison
-RESULT_DIR <- 'path/to/result'
+
 batchCells <- c(5000, 10000, 15000, 20000, 25000, 50000)
 for (i in batchCells){
   params.groups <- newSplatParams(batchCells = i, nGenes = 20000)
