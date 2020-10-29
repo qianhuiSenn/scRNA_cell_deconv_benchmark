@@ -29,4 +29,4 @@ For the information of software updates, please go to their corresponding pages.
 
 
 # Reference
-Huang, Q., Liu, Y., Du, Y., Garmire, L. (2019). Evaluation of Cell Type Deconvolution R Packages on Single Cell RNA-seq Data. bioRxiv 827139, doi: https://doi.org/10.1101/827139.
+Huang, Q., Liu, Y., Du, Y., Garmire, L. (2019). Evaluation of Cell Type Annotation R Packages on Single Cell RNA-seq Data. bioRxiv 827139, doi: https://doi.org/10.1101/827139.
