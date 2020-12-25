@@ -29,4 +29,6 @@ For the information of software updates, please go to their corresponding pages.
 
 
 # Reference
+Q. Huang, Y. Liu, Y. Du, L.X. Garmire, Evaluation of Cell Type Annotation RPackages on Single-cell RNA-seq Data, Genomics,  Proteomics  &  Bioinformatics (2020), doi: https://doi.org/10.1016/j.gpb.2020.07.004. \
+
 Huang, Q., Liu, Y., Du, Y., Garmire, L. (2019). Evaluation of Cell Type Annotation R Packages on Single Cell RNA-seq Data. bioRxiv 827139, doi: https://doi.org/10.1101/827139.
