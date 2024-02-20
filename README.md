@@ -5,13 +5,14 @@ Please find the corresponding Rscripts for simulation data.
 # Run the Rscripts with Docker
 Pull the software versions used in the manuscript from the Docker file (Here illustrate the use with Singularity).
 ## usage in R session
-The link to the docker image containing tools used in the paper with version control: [https://hub.docker.com/repository/docker/qhhuang/benchmark_celltype_r_packages/general](https://hub.docker.com/repository/docker/qhhuang/benchmark_celltype_r_packages/general).
+The link to the docker image containing tools used in the paper with version control: [https://hub.docker.com/r/qhhuang/benchmark_celltype_r_packages](https://hub.docker.com/r/qhhuang/benchmark_celltype_r_packages).
 
 ```bash
 SINGULARITY_DOCKER_USERNAME=dockerusername SINGULARITY_DOCKER_PASSWORD=dockerpassword singularity pull docker://qhhuang/benchmark_celltype_r_packages:versioncontrol
 singularity exec -B /path/to/your/working/directory /path/to/docker/img/benchmark_celltype_r_packages-versioncontrol.simg R
 ```
 Then, proceeds your analysis as usual.
+
 
 ## execute Rscript directly
 ```bash
